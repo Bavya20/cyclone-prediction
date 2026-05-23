@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - SpatioTemporal Cyclone Track Forecasting</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary-pink: #ff4d94;
+            --light-pink: #ff99c2;
+            --primary-blue: #4dc3ff;
+            --light-blue: #99ddff;
+            --dark-blue: #0066cc;
+            --dark-gray: #333;
+            --light-gray: #f5f5f5;
+        }
+
+        body {
+            background-color: #0a192f;
+            color: white;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Cyclone background effect */
+        .cyclone-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1502134249126-9f3755a50d78?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.3;
+            z-index: -1;
+        }
+
+        /* Animated cyclone spiral overlay */
+        .spiral-overlay {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 600px;
+            height: 600px;
+            margin-top: -300px;
+            margin-left: -300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, transparent 60%, rgba(77, 195, 255, 0.1) 70%, rgba(255, 77, 148, 0.1) 100%);
+            animation: spin 30s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.1); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 5%;
+            background-color: rgba(10, 25, 47, 0.9);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+        }
+
+        .logo i {
+            color: var(--primary-blue);
+            margin-right: 10px;
+            font-size: 2.2rem;
+        }
+
+        .logo span {
+            color: var(--primary-pink);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-pink);
+            background-color: rgba(255, 77, 148, 0.1);
+        }
+
+        .nav-links a.active {
+            color: var(--light-blue);
+            background-color: rgba(77, 195, 255, 0.1);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(to right, var(--primary-pink), var(--primary-blue));
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 80%;
+            left: 10%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Page Header */
+        .page-header {
+            padding: 12rem 5% 5rem;
+            text-align: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .page-header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, var(--primary-pink), var(--primary-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .page-header p {
+            font-size: 1.3rem;
+            margin-bottom: 2.5rem;
+            color: var(--light-blue);
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+
+        /* About Content Sections */
+        .about-content {
+            padding: 0 5% 6rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: white;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary-pink), var(--primary-blue));
+            border-radius: 2px;
+        }
+
+        .mission-vision {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            margin-bottom: 6rem;
+        }
+
+        .mission-card, .vision-card {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 2.5rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mission-card:hover, .vision-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            border-color: var(--primary-blue);
+        }
+
+        .mission-card::before, .vision-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, var(--primary-pink), var(--primary-blue));
+        }
+
+        .mission-card h3, .vision-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-blue);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .mission-card p, .vision-card p {
+            color: #ccc;
+            line-height: 1.7;
+            font-size: 1.1rem;
+        }
+
+        /* Timeline Section */
+        .timeline-section {
+            margin-bottom: 6rem;
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 900px;
+            margin: 4rem auto 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom, var(--primary-pink), var(--primary-blue));
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            margin-bottom: 3rem;
+            position: relative;
+            width: 45%;
+        }
+
+        .timeline-item:nth-child(odd) {
+            left: 0;
+        }
+
+        .timeline-item:nth-child(even) {
+            left: 55%;
+        }
+
+        .timeline-content {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 1.5rem 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        .timeline-content::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            width: 20px;
+            height: 20px;
+            background: var(--primary-pink);
+            border-radius: 50%;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content::before {
+            right: -10px;
+            transform: translateX(50%);
+        }
+
+        .timeline-item:nth-child(even) .timeline-content::before {
+            left: -10px;
+            transform: translateX(-50%);
+        }
+
+        .timeline-year {
+            color: var(--light-blue);
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-content h4 {
+            font-size: 1.4rem;
+            margin-bottom: 0.8rem;
+            color: white;
+        }
+
+        .timeline-content p {
+            color: #ccc;
+            line-height: 1.6;
+        }
+
+        /* Team Section */
+        .team-section {
+            margin-bottom: 6rem;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+
+        .team-card {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s ease;
+            text-align: center;
+        }
+
+        .team-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            border-color: var(--primary-blue);
+        }
+
+        .team-img {
+            height: 200px;
+            background: linear-gradient(to right, rgba(77, 195, 255, 0.2), rgba(255, 77, 148, 0.2));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: var(--primary-blue);
+        }
+
+        .team-info {
+            padding: 1.5rem;
+        }
+
+        .team-info h4 {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+            color: white;
+        }
+
+        .team-info .position {
+            color: var(--light-blue);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .team-info p {
+            color: #ccc;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        /* Partners Section */
+        .partners-section {
+            margin-bottom: 6rem;
+        }
+
+        .partners-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .partner-logo {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 120px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s ease;
+        }
+
+        .partner-logo:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-pink);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .partner-logo i {
+            font-size: 3rem;
+            color: var(--light-blue);
+        }
+
+        /* Call to Action */
+        .cta-section {
+            text-align: center;
+            padding: 4rem 5%;
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            margin-bottom: 6rem;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, var(--primary-pink), var(--primary-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .cta-section p {
+            color: var(--light-blue);
+            max-width: 700px;
+            margin: 0 auto 2.5rem;
+            font-size: 1.2rem;
+            line-height: 1.6;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(to right, var(--primary-pink), var(--primary-blue));
+            color: white;
+            box-shadow: 0 5px 15px rgba(255, 77, 148, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255, 77, 148, 0.6);
+        }
+
+        /* Footer */
+        footer {
+            background-color: rgba(10, 25, 47, 0.95);
+            padding: 3rem 5% 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+            gap: 2rem;
+        }
+
+        .footer-column {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-blue);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-pink);
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-icons a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            background-color: var(--primary-pink);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .page-header h1 {
+                font-size: 2.8rem;
+            }
+            
+            .timeline::before {
+                left: 30px;
+            }
+            
+            .timeline-item {
+                width: 100%;
+                left: 0 !important;
+                padding-left: 70px;
+            }
+            
+            .timeline-item:nth-child(odd) .timeline-content::before,
+            .timeline-item:nth-child(even) .timeline-content::before {
+                left: 20px;
+                transform: translateX(-50%);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem 5%;
+            }
+            
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: rgba(10, 25, 47, 0.95);
+                flex-direction: column;
+                padding: 1rem 0;
+                text-align: center;
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .page-header {
+                padding: 10rem 5% 4rem;
+            }
+            
+            .page-header h1 {
+                font-size: 2.3rem;
+            }
+            
+            .page-header p {
+                font-size: 1.1rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .spiral-overlay {
+                width: 400px;
+                height: 400px;
+                margin-top: -200px;
+                margin-left: -200px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-header h1 {
+                font-size: 2rem;
+            }
+            
+            .mission-card, .vision-card {
+                padding: 2rem 1.5rem;
+            }
+            
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Cyclone Background -->
+    <div class="cyclone-bg"></div>
+    <div class="spiral-overlay"></div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <a href="{% url 'index' %}" class="logo">
+            <i class="fas fa-wind"></i>
+            Cyclone<span>Track</span>
+        </a>
+        
+        <div class="nav-links" id="navLinks">
+            <a href="{% url 'index' %}">Home</a>
+            <a href="{% url 'about' %}" class="active">About</a>
+            <a href="{% url 'register' %}">Registration</a>
+            <a href="{% url 'login' %}">Login</a>
+        </div>
+        
+        <button class="mobile-menu-btn" id="mobileMenuBtn">
+            <i class="fas fa-bars"></i>
+        </button>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <h1>About Our Research</h1>
+        <p>We're pioneering the future of cyclone forecasting through advanced spatiotemporal modeling and machine learning. Our mission is to save lives and reduce economic impact through more accurate predictions.</p>
+    </section>
+
+    <!-- About Content -->
+    <div class="about-content">
+        <!-- Mission & Vision -->
+        <section class="mission-vision">
+            <div class="mission-card">
+                <h3><i class="fas fa-bullseye"></i> Our Mission</h3>
+                <p>To revolutionize cyclone track forecasting by developing cutting-edge spatiotemporal models that significantly improve prediction accuracy, enabling better disaster preparedness and response strategies worldwide. We aim to reduce the human and economic toll of cyclones through timely, precise forecasts.</p>
+            </div>
+            
+            <div class="vision-card">
+                <h3><i class="fas fa-eye"></i> Our Vision</h3>
+                <p>To create a world where no community is caught unprepared for severe weather events. We envision a global forecasting system that leverages artificial intelligence, real-time satellite data, and collaborative research to provide accurate, accessible predictions for all vulnerable regions.</p>
+            </div>
+        </section>
+
+        <!-- Call to Action -->
+        <section class="cta-section">
+            <h2>Join Our Mission</h2>
+            <p>We're always looking for talented researchers, data scientists, and meteorologists to join our team. Whether you're interested in collaboration, internships, or career opportunities, we'd love to hear from you.</p>
+            <a href="{% url 'login' %}" class="btn btn-primary">
+                <i class="fas fa-handshake"></i> Get In Touch
+            </a>
+        </section>
+    </div>
+
+    
+    <script>
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navLinks = document.getElementById('navLinks');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            mobileMenuBtn.innerHTML = navLinks.classList.contains('active') 
+                ? '<i class="fas fa-times"></i>' 
+                : '<i class="fas fa-bars"></i>';
+        });
+
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+            });
+        });
+
+        // Animate timeline items when they come into view
+        const observerOptions = {
+            threshold: 0.2
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'fadeInUp 1s ease-out';
+                    entry.target.style.opacity = '1';
+                }
+            });
+        }, observerOptions);
+
+        // Observe timeline items
+        document.querySelectorAll('.timeline-item').forEach(item => {
+            item.style.opacity = '0';
+            observer.observe(item);
+        });
+
+        // Animate team cards
+        document.querySelectorAll('.team-card').forEach((card, index) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            
+            setTimeout(() => {
+                card.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, 300 + index * 150);
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
